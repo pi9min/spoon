@@ -1,0 +1,50 @@
+CREATE TABLE `User` (
+    `ID` INT64 NOT NULL,
+    `Name` STRING(MAX) NOT NULL,
+    `Token` STRING(MAX) NOT NULL,
+    `BornedDate` DATE,
+    `CreatedAt` TIMESTAMP NOT NULL,
+    `UpdatedAt` TIMESTAMP NOT NULL,
+) PRIMARY KEY (`ID`)
+
+CREATE TABLE `Entry` (
+    `ID` INT64 NOT NULL,
+    `Title` STRING(MAX) NOT NULL,
+    `Public` BOOL NOT NULL,
+    `Content` STRING(1048576) NOT NULL,
+    `CreatedAt` TIMESTAMP NOT NULL,
+    `UpdatedAt` TIMESTAMP NOT NULL,
+) PRIMARY KEY (`ID`, `CreatedAt` DESC), INTERLEAVE IN PARENT `User`
+
+CREATE TABLE `PlayerComment` (
+    `ID` INT64 NOT NULL,
+    `PlayerID` INT64 NOT NULL,
+    `EntryID` INT64 NOT NULL,
+    `Comment` STRING(MAX),
+    `CreatedAt` TIMESTAMP NOT NULL,
+    `updatedAt` TIMESTAMP NOT NULL,
+) PRIMARY KEY (`ID`)
+
+CREATE TABLE `Bookmark` (
+    `ID` STRING(MAX) NOT NULL,
+    `UserID` INT64 NOT NULL,
+    `EntryID` INT64 NOT NULL,
+    `Comments` ARRAY<STRING(MAX)> NOT NULL,
+    `CreatedAt` TIMESTAMP NOT NULL,
+    `UpdatedAt` TIMESTAMP NOT NULL,
+) PRIMARY KEY (`ID`)
+
+CREATE TABLE `Balance` (
+    `ID` STRING(MAX) NOT NULL,
+    `UserID` STRING(MAX) NOT NULL,
+    `CurrencyID` INT64 NOT NULL,
+    `Amount` FLOAT64 NOT NULL,
+) PRIMARY KEY (`ID`)
+
+CREATE TABLE `NestParent` (
+    `NC1ID` STRING(MAX) NOT NULL,
+    `NestedAt` TIMESTAMP NOT NULL,
+    `NC2ID` STRING(MAX) NOT NULL,
+    `Birthdate` DATE,
+    `Nested2At` TIMESTAMP,
+) PRIMARY KEY (`NC1ID`)
